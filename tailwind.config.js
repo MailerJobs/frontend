@@ -8,10 +8,18 @@ export default {
         'purple-button': '#90267A',
         'test-back': '#9747FF',
         'footer-back': '#CA3BAC',
-        'line': '#E645C4'
+        'line': '#E645C4',
+        'login-register-label': '#5C5A5A',
+        'input-border': '#BBBBBB'
       },
       backgroundImage: {
         'home-page': "url('/public/Background1.jpg')",
+        'username-input': "url('SVG/User-Logo.svg')",
+        'password-input': "url('SVG/Lock.svg')",
+        'email-input': "url('SVG/Email.svg')",
+        'phone-input': "url('SVG/Phone.svg')",
+        'pincode-input': "url('Pin.png')",
+        'organization-input': "url('SVG/Org_icon.svg')"
       },
       fontFamily: {
         roboto: ['Roboto', 'sans-serif'],
@@ -20,10 +28,14 @@ export default {
         poppins: ['Poppins', 'sans-serif'],
       },
       dropShadow: {
-        'job_cat': '0 5px 5px rgba(0,0,0,0.5)',
+        'job_cat': '0 3px 3px rgba(0,0,0,0.5)',
         'job_search': '0 5px 30px rgba(231,203,203,1)',
         'job_filters': '0 3px 2px rgba(0,0,0,0.5)',
-        'apply-section': '0 1px 1px rgba(0,0,0,0.25)'
+        'apply-section': '0 1px 1px rgba(0,0,0,0.25)',
+        'profile': '0 1px 1px rgba(0,0,0,0.5)'
+      },
+      boxShadow: {
+        'purple-buttons': '0px 0px 15px rgba(231, 203, 203, 1)',
       }
     },
   },

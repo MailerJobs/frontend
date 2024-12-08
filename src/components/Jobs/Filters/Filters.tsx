@@ -1,94 +1,213 @@
-import React, { useEffect, useState } from "react";
-import { filtersData } from "../../../Data/Jobs/Categories/Cat_data";
-import Select from "react-dropdown-select";
+// @ts-nocheck
+import React, { useEffect, useState, useContext } from "react";
+import ReactSelectWithOptimization from "./ReactSelectWithOptimization ";
+import {
+  date_posted,
+  experience,
+  sector,
+  Job_Type,
+  filtersData,
+} from "../../../Data/Jobs/Categories/Cat_data";
+import { JobIndex } from "../../context/job_list_context";
+import { API_GET, API_POST } from "../../../utils/api_structure";
 
 const Filters = () => {
   const [city, setCity] = useState([]);
+
+  const [skills, setSkills] = useState("");
+
+  const [logdatafilters, setDatafilters] = useState({
+    location: "",
+    date_posted: "",
+    experience: "",
+    sector: "",
+    job_Type: "",
+    skills: "",
+  });
+
+  // console.log(logdatafilters);
+
+  // addData function adds data from the fliter to logdatafilters variable
+  const addData = (name, value) => {
+    setDatafilters(() => {
+      return {
+        ...logdatafilters,
+        [name]: value,
+      };
+    });
+  };
+
+  const {
+    selectedOptionlocation,
+    setSelectedOptionlocation,
+    selectedOptionDate,
+    setSelectedOptionDate,
+    selectedOptionExperience,
+    setSelectedOptionExperience,
+    selectedOptionSector,
+    setSelectedOptionSector,
+    selectedOptionType,
+    setSelectedOptionType,
+    selectedOptionSkill,
+    setSelectedOptionSkill,
+    job_Data,
+    setData,
+    jobdata,
+    setJobs,
+    job_index,
+    setJobIndex,
+  } = useContext(JobIndex);
 
   const country = {
     country: "india",
   };
 
+  async function sendData() {
+    const URL = "http://127.0.0.1:5000/filterjobs";
+    const { result, status } = await API_POST(URL, logdatafilters);
+    setData(result);
+    setJobs(result);
+    setJobIndex(result[0]);
+  }
+
+  async function cityData() {
+    const URL = "https://countriesnow.space/api/v0.1/countries/cities";
+    const { result, status } = await API_POST(URL, country);
+    setCity(result);
+  }
+
+  async function getAllSkills() {
+    const URL = "http://127.0.0.1:5000/skills";
+    const { result, status } = await API_GET(URL);
+    setSkills(result);
+  }
+
   useEffect(() => {
-    fetch("https://countriesnow.space/api/v0.1/countries/cities", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(country),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setCity(data);
-      })
-      .catch((error) => {
-        console.log("Api Latest Error:" + error);
-      });
+    cityData();
+    getAllSkills();
   }, []);
 
   delete city["error"];
   delete city["msg"];
 
   let newarr = city["data"];
-  var result;
+  var result, new_skill;
 
   if (Array.isArray(newarr)) {
     result = newarr.map((item, index) => ({
       value: index + 1,
       label: item,
     }));
+    new_skill = skills.map((item, index) => ({
+      value: index + 1,
+      label: item.skill_name,
+    }));
     // console.log(JSON.stringify(result));
   } else {
     // console.error("newarr is not an array or is undefined.");
   }
 
-  // console.log(JSON.stringify(result));
-
-  const [value,setValue] = useState([]);
+  const reset = () => {
+    setSelectedOptionlocation("");
+    setSelectedOptionDate("");
+    setSelectedOptionExperience("");
+    setSelectedOptionSector("");
+    setSelectedOptionType("");
+    setSelectedOptionSkill("");
+    setDatafilters(() => {
+      return {
+        ...logdatafilters,
+        ["location"]: "",
+        ["date_posted"]: "",
+        ["experience"]: "",
+        ["sector"]: "",
+        ["job_Type"]: "",
+        ["skills"]: "",
+      };
+    });
+  };
 
   return (
-    <div className="flex  w-full h-20 items-center justify-around">
-      {/* <div className="w-[200px] drop-shadow-job_filters">
-            {/* <Select
+    <div className="flex  w-full h-40 items-center justify-center ">
+      <div className=" z-10 flex flex-col items-center gap-5">
+        {/* These are the dropmenu components */}
+        <div className="flex gap-4">
+          <div className="w-[200px]">
+            <ReactSelectWithOptimization
               options={result}
-              name="location"
-              values={[]}
-              valueField="value"
-              labelField="label"
-              onChange={value => setValue(value)}
-              className="bg-white text-black  "
-              placeholder="Location"
-              style={
-                {
-                  borderRadius: "10px",
-                  fontWeight: 500,
-                  fontSize: "16px",
-                  color: "black",
-                }
-              }
-              color="none"
+              name={"Location"}
+              selectedOption={selectedOptionlocation}
+              setSelected={setSelectedOptionlocation}
+              onchange={addData}
+              id={"location"}
             />
-          </div> */} 
-      {filtersData.map((e) => {
-        return (
-          <div
-            className="flex justify-center items-center
-            px-8 gap-3 h-10 bg-white rounded-xl drop-shadow-job_filters"
-          >
-            <div className="font-inter font-medium w-28 flex justify-center">
-              {e.name}
-            </div>
-            <img src={e.icon} alt="" className="w-9 " />
           </div>
-          
-        );
-      })}
-      
+          <div className="w-[200px]">
+            <ReactSelectWithOptimization
+              options={date_posted}
+              name={"Date Posted"}
+              selectedOption={selectedOptionDate}
+              setSelected={setSelectedOptionDate}
+              onchange={addData}
+              id={"date_posted"}
+            />
+          </div>
+          <div className="w-[200px]">
+            <ReactSelectWithOptimization
+              options={experience}
+              name={"Experience"}
+              selectedOption={selectedOptionExperience}
+              setSelected={setSelectedOptionExperience}
+              onchange={addData}
+              id={"experience"}
+            />
+          </div>
+          <div className="w-[200px]">
+            <ReactSelectWithOptimization
+              options={sector}
+              name={"Sector"}
+              selectedOption={selectedOptionSector}
+              setSelected={setSelectedOptionSector}
+              onchange={addData}
+              id={"sector"}
+            />
+          </div>
+          <div className="w-[200px]">
+            <ReactSelectWithOptimization
+              options={Job_Type}
+              name={"Job Type"}
+              selectedOption={selectedOptionType}
+              setSelected={setSelectedOptionType}
+              onchange={addData}
+              id={"job_Type"}
+            />
+          </div>
+          <div className="w-[200px]">
+            <ReactSelectWithOptimization
+              options={new_skill}
+              name={"Skills"}
+              selectedOption={selectedOptionSkill}
+              setSelected={setSelectedOptionSkill}
+              onchange={addData}
+              id={"skills"}
+            />
+          </div>
+        </div>
+        <div className="flex gap-3">
+          <button
+            onClick={reset}
+            className="px-5 py-1  rounded-full bg-purple-button font-medium text-white"
+          >
+            Reset
+          </button>
+          <button
+            onClick={sendData}
+            className="px-5 py-1 rounded-full bg-purple-button font-medium text-white"
+          >
+            Apply Filters
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

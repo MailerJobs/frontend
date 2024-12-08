@@ -1,6 +1,7 @@
 // @ts-nocheck
 import React, { useContext, useState, useEffect } from "react";
 import { JobIndex } from "../../context/job_list_context";
+import fetchskills from "../../../utils/fetchskill";
 
 interface Job {
   job_id: string;
@@ -16,23 +17,29 @@ interface Job {
 }
 
 const Job_RightSection = (props) => {
-  const { job_index, setJobIndex } = useContext(JobIndex);
+  const { job_index, setJobIndex, skill, setSkill } = useContext(JobIndex);
 
-  console.log(JSON.stringify(job_index));
+  // console.log("JRS JI = "+JSON.stringify(job_index));
 
   let text = job_index.job_description;
-
   let jobJD;
   if (typeof text === "string") {
     jobJD = text.replace(/\n/g, "<br>");
-    document.getElementById("jd").innerHTML = jobJD;
+    const element = document.getElementById("jd");
+    if (element) {
+      element.innerHTML = jobJD;
+    } else {
+      console.log("Element not found");
+    }
   } else {
-    console.log("Text is not defined or is not a string");
+    // console.log("Text is not defined or is not a string");
   }
+
+  // console.log(JSON.stringify(skill));
 
   return (
     <div className="flex flex-col p-5 gap-5 border-gray-300 border-[1px]">
-      <div className="sticky top-0 bg-white w-full flex flex-col gap-6 pt-5">
+      <div className="bg-white w-full flex flex-col gap-6 pt-5">
         <div className="flex items-center gap-5">
           <img
             src={job_index.image_url}
@@ -87,7 +94,16 @@ const Job_RightSection = (props) => {
         </div>
         <h1 className="font-inter text-xl font-bold my-4">About the role</h1>
         <p id="jd" className="font-inter"></p>
-        <h1>Required skills</h1>
+        <h1 className="font-inter text-xl font-bold my-4">Required skills</h1>
+        <div className="flex gap-5 flex-wrap">
+          {skill.map((e, key) => {
+            return (
+              <div key={key} className="bg-gray-400 px-3 py-2 rounded-full">
+                <h1 className="font-inter">{e.skill_name}</h1>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

@@ -1,13 +1,14 @@
 import React from "react";
 import { links } from "../../Data/Social-Links/Links";
+import { NavLink } from "react-router-dom";
 
 const Footer = () => {
   return (
     <div className="flex flex-col">
       <div className="bg-footer-back">
         <div className="flex justify-center gap-5 py-5 ">
-          {links.map((e) => {
-            return <img src={e.icon} alt="" className="w-6" />;
+          {links.map((e,key) => {
+            return <img key={key} src={e.icon} alt="" className="w-6" />;
           })}
         </div>
       </div>
@@ -24,14 +25,26 @@ const Footer = () => {
             <h1 className="font-medium text-2xl">Useful Links</h1>
             <div className="w-20 h-[3px] bg-line" />
             <div className="mt-4">
-              <div className="flex text-xl">
-                <img src="public/SVG/Right-Arrow.svg" alt="" className="w-3" />
-                Home
-              </div>
-              <div className="flex text-xl">
-                <img src="public/SVG/Right-Arrow.svg" alt="" className="w-3" />
-                Jobs
-              </div>
+              <NavLink to="/home">
+                <div className="flex text-xl">
+                  <img
+                    src="public/SVG/Right-Arrow.svg"
+                    alt=""
+                    className="w-3"
+                  />
+                  Home
+                </div>
+              </NavLink>
+              <NavLink to="/jobs">
+                <div className="flex text-xl">
+                  <img
+                    src="public/SVG/Right-Arrow.svg"
+                    alt=""
+                    className="w-3"
+                  />
+                  Jobs
+                </div>
+              </NavLink>
               <div className="flex text-xl">
                 <img src="public/SVG/Right-Arrow.svg" alt="" className="w-3" />
                 Blog
@@ -83,7 +96,9 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="font-inter font-thin">Mailerjobs © 2024, All Rights Reserved</div>
+        <div className="font-inter font-thin">
+          Mailerjobs © 2024, All Rights Reserved
+        </div>
       </div>
     </div>
   );
