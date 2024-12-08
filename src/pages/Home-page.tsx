@@ -29,11 +29,15 @@ const HomePage = () => {
         <Testimonial />
       </div>
       <div className="flex flex-col items-center">
-        <h1 className="text-5xl font-roboto font-medium mt-10">Hiring Companies</h1>
+        <h1 className="text-5xl font-roboto font-medium mt-10">
+          Hiring Companies
+        </h1>
         <HiringSection />
       </div>
-      <div> 
-        <h1 className="text-4xl font-bold text-purple-button ml-28 mt-9">BLOG POST</h1>
+      <div>
+        <h1 className="text-4xl font-bold text-purple-button ml-28 mt-9">
+          BLOG POST
+        </h1>
         <BlogPost />
       </div>
       <Footer />

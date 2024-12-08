@@ -3,6 +3,9 @@ import React, { useContext, useEffect, useState } from "react";
 import Job_LeftSection from "./Job_LeftSection";
 import Job_RightSection from "./Job_RightSection";
 import { JobIndex } from "../../context/job_list_context";
+import fetchskills from "../../../utils/fetchskill";
+import { API_GET, API_POST } from "../../../utils/api_structure";
+import { data } from "autoprefixer";
 
 interface Job {
   job_id: string;
@@ -18,36 +21,34 @@ interface Job {
 }
 
 const JobSection = () => {
-  const [jobdata, setJobs] = useState<Job[]>([]);
+  const {
+    job_index,
+    setJobIndex,
+    setSkill,
+    skill,
+    job_Data,
+    setData,
+    jobdata,
+    setJobs,
+  } = useContext(JobIndex);
 
-  const { job_index, setJobIndex } = useContext(JobIndex);
+  async function skillfetch(key) {
+    const URL = `http://127.0.0.1:5000/skill/${key.id}`;
+    const { result, status } = await API_POST(URL, "skill");
+    setSkill(result);
+  }
 
+  async function jobs() {
+    const URL = `http://127.0.0.1:5000/jobs`;
+    const { result, status } = await API_GET(URL);
+    setJobs(result);
+    setJobIndex(result[0]);
+    skillfetch(result[0]);
+  }
 
   useEffect(() => {
-    fetch("http://127.0.0.1:5000/jobs")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setJobs(data);
-        if (data && data[0].job_id) {
-          // console.log("Important = "+data[0].job_id); // safely access the job_id
-          setJobIndex(data[0]);
-          
-        } else {
-          console.log("Job object or job_id is undefined");
-        }
-      })
-      .catch((error) => {
-        console.log("Api Latest Error:" + error);
-      });
+    jobs();
   }, []);
-
-  // console.log("jobdata = " + JSON.stringify(jobdata));
-  // console.log(Array.isArray(jobdata));
 
   return (
     <div className="w-full h-[1000px] flex flex-row gap-1">
@@ -55,7 +56,9 @@ const JobSection = () => {
         <Job_LeftSection jobdata={jobdata} />
       </div>
       <div className="w-[1px] h-auto bg-gray-300" />
-      <div className=" w-[950px] grow overflow-x-auto"><Job_RightSection jobdata={jobdata} /></div>
+      <div className=" w-[950px] grow overflow-x-auto">
+        <Job_RightSection jobdata={jobdata} />
+      </div>
     </div>
   );
 };
