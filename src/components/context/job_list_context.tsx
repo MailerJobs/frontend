@@ -25,6 +25,46 @@ const ContextProvider = ({ children }) => {
     experience: "",
   });
   const [userLogin,setUserLogin] = useState(false);
+  const [profiletype,setProfileType] = useState("profile");
+  const [candidateid,setCandidateId] = useState([]);
+  const [profileBI, setProfileBI] = useState({
+      first_name: "",
+      last_name: "",
+      email: "",
+      DOB: "",
+      phone_no: "",
+      pincode: "",
+      sector: "",
+      college_name: "",
+      linkedin: "",
+      facebook: "",
+      twitter: "",
+      state: "",
+      city: "",
+    });
+    const [token,setToken] = useState("");
+    const [resume,setResume] = useState("");
+    const [clientLogin, setClientLogin] = useState(false);
+    const [clientprofiletype,setClientProfileType] = useState("profile");
+    const [clientid,setClientId] = useState([]);
+    const [clientprofileBI, setClientProfileBI] = useState({
+      first_name: "",
+      last_name: "",
+      email: "",
+      phone_no: "",
+      pincode: "",
+      sector: "",
+      company_name: "",
+      company_url: "",
+      linkedin: "",
+      facebook: "",
+      twitter: "",
+      state: "",
+      city: "",
+    });
+    const [clientviewjobid,setClientViewJobId] = useState();
+    const [collegeDetails, setCollegeDetails] = useState([]);
+    const [singlecollege, setSingleCollege] = useState([]);
 
   return (
     <>
@@ -59,7 +99,31 @@ const ContextProvider = ({ children }) => {
           searchDataFilters,
           setSearchDatafilters,
           userLogin,
-          setUserLogin
+          setUserLogin,
+          profiletype,
+          setProfileType,
+          candidateid,
+          setCandidateId,
+          profileBI, 
+          setProfileBI,
+          token,
+          setToken,
+          resume,
+          setResume,
+          clientLogin, 
+          setClientLogin,
+          clientprofiletype,
+          setClientProfileType,
+          clientid,
+          setClientId,
+          clientprofileBI, 
+          setClientProfileBI,
+          clientviewjobid,
+          setClientViewJobId,
+          collegeDetails, 
+          setCollegeDetails,
+          singlecollege, 
+          setSingleCollege
         }}
       >
         {children}

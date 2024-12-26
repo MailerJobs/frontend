@@ -11,7 +11,6 @@ import Footer from "../components/Footer/Footer";
 const HomePage = () => {
   return (
     <>
-      <Header />
       <div className="bg-home-page w-full h-[500px] bg-cover bg-center flex flex-col gap-5 items-center justify-center">
         <h1 className="text-4xl font-bold font-roboto">Find Your Dream Job</h1>
         <Search />

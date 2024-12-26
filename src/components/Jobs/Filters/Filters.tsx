@@ -10,11 +10,12 @@ import {
 } from "../../../Data/Jobs/Categories/Cat_data";
 import { JobIndex } from "../../context/job_list_context";
 import { API_GET, API_POST } from "../../../utils/api_structure";
+import { cities } from "../../../Data/cities";
 
 const Filters = () => {
   const [city, setCity] = useState([]);
 
-  const [skills, setSkills] = useState("");
+  const [skills, setSkills] = useState([]);
 
   const [logdatafilters, setDatafilters] = useState({
     location: "",
@@ -36,6 +37,7 @@ const Filters = () => {
       };
     });
   };
+  
 
   const {
     selectedOptionlocation,
@@ -63,34 +65,24 @@ const Filters = () => {
   };
 
   async function sendData() {
-    const URL = "http://127.0.0.1:5000/filterjobs";
+    const URL = "filterjobs";
     const { result, status } = await API_POST(URL, logdatafilters);
     setData(result);
     setJobs(result);
     setJobIndex(result[0]);
   }
 
-  async function cityData() {
-    const URL = "https://countriesnow.space/api/v0.1/countries/cities";
-    const { result, status } = await API_POST(URL, country);
-    setCity(result);
-  }
-
   async function getAllSkills() {
-    const URL = "http://127.0.0.1:5000/skills";
+    const URL = "skills";
     const { result, status } = await API_GET(URL);
     setSkills(result);
   }
 
   useEffect(() => {
-    cityData();
     getAllSkills();
   }, []);
 
-  delete city["error"];
-  delete city["msg"];
-
-  let newarr = city["data"];
+  let newarr = cities[0]["cities"];
   var result, new_skill;
 
   if (Array.isArray(newarr)) {
@@ -204,7 +196,7 @@ const Filters = () => {
             onClick={sendData}
             className="px-5 py-1 rounded-full bg-purple-button font-medium text-white"
           >
-            Apply Filters
+            Apply
           </button>
         </div>
       </div>

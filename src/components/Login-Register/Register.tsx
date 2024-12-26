@@ -1,5 +1,4 @@
 // @ts-nocheck
-
 import React, { useState,useContext } from "react";
 import { API_POST } from "../../utils/api_structure";
 import { toast } from "react-toastify";
@@ -20,7 +19,7 @@ const Register = (props) => {
     pincode: "",
   });
 
-  console.log(registerdata);
+  // console.log(registerdata);
 
   const adddata = (e) => {
     const { name, value } = e.target;
@@ -35,7 +34,7 @@ const Register = (props) => {
 
   async function registercandidate(e) {
     e.preventDefault();
-    const URL = "http://127.0.0.1:5000/registercandidate";
+    const URL = "registercandidate";
     const { result, status } = await API_POST(URL, registerdata);
     console.log("Result = "+JSON.stringify(result));
     console.log("Satus = "+status);
@@ -46,10 +45,8 @@ const Register = (props) => {
         closeOnClick: true,
         pauseOnHover: true,
       });
-      setUserLogin(false);
-      
+      setUserLogin(false);   
       props.changeFunc();
-      localStorage.setItem("token", JSON.stringify(result["token"]));
     } else if(status == 409){
       toast.warn("Candidate Already registered", {
         position: "top-center",

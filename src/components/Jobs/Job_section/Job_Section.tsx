@@ -6,6 +6,7 @@ import { JobIndex } from "../../context/job_list_context";
 import fetchskills from "../../../utils/fetchskill";
 import { API_GET, API_POST } from "../../../utils/api_structure";
 import { data } from "autoprefixer";
+import Apply from "./apply";
 
 interface Job {
   job_id: string;
@@ -33,13 +34,13 @@ const JobSection = () => {
   } = useContext(JobIndex);
 
   async function skillfetch(key) {
-    const URL = `http://127.0.0.1:5000/skill/${key.id}`;
+    const URL = `skill/${key.id}`;
     const { result, status } = await API_POST(URL, "skill");
     setSkill(result);
   }
 
   async function jobs() {
-    const URL = `http://127.0.0.1:5000/jobs`;
+    const URL = `jobs`;
     const { result, status } = await API_GET(URL);
     setJobs(result);
     setJobIndex(result[0]);

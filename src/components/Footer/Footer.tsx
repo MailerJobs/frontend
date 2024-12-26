@@ -28,7 +28,7 @@ const Footer = () => {
               <NavLink to="/home">
                 <div className="flex text-xl">
                   <img
-                    src="public/SVG/Right-Arrow.svg"
+                    src="SVG/Right-Arrow.svg"
                     alt=""
                     className="w-3"
                   />
@@ -38,7 +38,7 @@ const Footer = () => {
               <NavLink to="/jobs">
                 <div className="flex text-xl">
                   <img
-                    src="public/SVG/Right-Arrow.svg"
+                    src="SVG/Right-Arrow.svg"
                     alt=""
                     className="w-3"
                   />
@@ -46,19 +46,19 @@ const Footer = () => {
                 </div>
               </NavLink>
               <div className="flex text-xl">
-                <img src="public/SVG/Right-Arrow.svg" alt="" className="w-3" />
+                <img src="SVG/Right-Arrow.svg" alt="" className="w-3" />
                 Blog
               </div>
               <div className="flex text-xl">
-                <img src="public/SVG/Right-Arrow.svg" alt="" className="w-3" />
+                <img src="SVG/Right-Arrow.svg" alt="" className="w-3" />
                 Privacy Policy
               </div>
               <div className="flex text-xl">
-                <img src="public/SVG/Right-Arrow.svg" alt="" className="w-3" />
+                <img src="SVG/Right-Arrow.svg" alt="" className="w-3" />
                 Terms & Condition
               </div>
               <div className="flex text-xl">
-                <img src="public/SVG/Right-Arrow.svg" alt="" className="w-3" />
+                <img src="SVG/Right-Arrow.svg" alt="" className="w-3" />
                 User Dashboard
               </div>
             </div>
@@ -69,7 +69,7 @@ const Footer = () => {
 
             <div className="flex items-start mt-4 text-lg">
               <img
-                src="public/SVG/Footer/location.svg"
+                src="SVG/Footer/location.svg"
                 alt=""
                 className="w-4 mt-[6px] mr-3"
               />
@@ -80,7 +80,7 @@ const Footer = () => {
             </div>
             <div className="flex text-lg">
               <img
-                src="public/SVG/Footer/phone.svg"
+                src="SVG/Footer/phone.svg"
                 alt=""
                 className="w-4 mr-3"
               />
@@ -88,7 +88,7 @@ const Footer = () => {
             </div>
             <div className="flex text-lg">
               <img
-                src="public/SVG/Footer/mail.svg"
+                src="SVG/Footer/mail.svg"
                 alt=""
                 className="w-4 mr-3"
               />

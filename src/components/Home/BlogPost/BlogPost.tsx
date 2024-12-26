@@ -5,7 +5,7 @@ const BlogPost = () => {
     <div className="flex gap-[180px] justify-center my-10">
       <div>
         <img
-          src="public/Background2.jpg"
+          src="Background2.jpg"
           alt=""
           className="w-[550px] rounded-sm drop-shadow-lg"
         />
@@ -20,7 +20,7 @@ const BlogPost = () => {
       </div>
       <div>
         <img
-          src="public/Background2.jpg"
+          src="Background2.jpg"
           alt=""
           className="w-[550px] rounded-sm drop-shadow-lg"
         />

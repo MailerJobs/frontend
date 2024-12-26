@@ -13,13 +13,14 @@ export default {
         'input-border': '#BBBBBB'
       },
       backgroundImage: {
-        'home-page': "url('/public/Background1.jpg')",
+        'home-page': "url('Background1.jpg')",
         'username-input': "url('SVG/User-Logo.svg')",
         'password-input': "url('SVG/Lock.svg')",
         'email-input': "url('SVG/Email.svg')",
         'phone-input': "url('SVG/Phone.svg')",
         'pincode-input': "url('Pin.png')",
-        'organization-input': "url('SVG/Org_icon.svg')"
+        'organization-input': "url('SVG/Org_icon.svg')",
+        'college-ski' : "url(college/background/ski.jpg)"
       },
       fontFamily: {
         roboto: ['Roboto', 'sans-serif'],
@@ -32,7 +33,8 @@ export default {
         'job_search': '0 5px 30px rgba(231,203,203,1)',
         'job_filters': '0 3px 2px rgba(0,0,0,0.5)',
         'apply-section': '0 1px 1px rgba(0,0,0,0.25)',
-        'profile': '0 1px 1px rgba(0,0,0,0.5)'
+        'profile': '0 1px 1px rgba(0,0,0,0.5)',
+        'college': '0 4px 6px rgba(0,0,0,0.25)'
       },
       boxShadow: {
         'purple-buttons': '0px 0px 15px rgba(231, 203, 203, 1)',

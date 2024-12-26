@@ -4,17 +4,18 @@ import { JobIndex } from "../context/job_list_context";
 import { Email } from "@mui/icons-material";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { API_POST } from "../../utils/api_structure";
+import { API_POST,API_POST_LOGIN } from "../../utils/api_structure";
 
 const Login = (props) => {
-  const { userLogin, setUserLogin } = useContext(JobIndex);
+  const { userLogin, setUserLogin, candidateid, setCandidateId,token,setToken } =
+    useContext(JobIndex);
 
   const [logdata, setLogData] = useState({
     email: "",
     password: "",
   });
 
-  console.log(logdata);
+  // console.log(logdata);
 
   const adddata = (e) => {
     const { name, value } = e.target;
@@ -27,55 +28,15 @@ const Login = (props) => {
     });
   };
 
-  // const senddata = async (e) => {
-  //   e.preventDefault();
-  //   const { email, password } = logdata;
-
-  //   const res = await fetch("http://127.0.0.1:5000/login", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({
-  //       email,
-  //       password,
-  //     }),
-  //     // body: JSON.stringify(logdatafilters),
-  //     // credentials: "include"
-  //   });
-
-  //   const result = await res.json();
-  //   console.log(res.status);
-
-  //   // console.log("User Logged = "+JSON.stringify(result));
-  //   if (res.status == 200) {
-  //     toast.success("Candidate Logged In", {
-  //       position: "top-center",
-  //       theme: "light",
-  //       closeOnClick: true,
-  //       pauseOnHover: true,
-  //     });
-  //     setUserLogin(true);
-  //     props.changeFunc();
-  //     localStorage.setItem("token", JSON.stringify(result["token"]));
-  //   } else if(res.status == 422){
-  //     toast.warn("Email-Password is Required", {
-  //       position: "top-center",
-  //       theme: "light",
-  //       closeOnClick: true,
-  //       pauseOnHover: true,
-  //     })
-  //   } else {
-  //     toast.error("Invalid details", {
-  //       position: "top-center",
-  //     });
-  //   }
-  //   // toast("Easy");
-  // };
+  async function candidateDetailsByID(candidateid) {
+    const URL = `candidate/${candidateid}`;
+    const { result, status } = await API_POST(URL, "candidateID");
+    setCandidateId(result);
+  }
 
   async function senddata() {
-    const URL = "http://127.0.0.1:5000/login";
-    const { result, status } = await API_POST(URL, logdata);
+    const URL = "login";
+    const { result, status } = await API_POST_LOGIN(URL, logdata);
     if (status == 200) {
       toast.success("Candidate Logged In", {
         position: "top-center",
@@ -83,16 +44,23 @@ const Login = (props) => {
         closeOnClick: true,
         pauseOnHover: true,
       });
+      const candiateID = JSON.stringify(result.candidate_id);
+      // setCandidateId(candiateID);
+      candidateDetailsByID(candiateID);
       setUserLogin(true);
       props.changeFunc();
+      localStorage.setItem("can-id", JSON.stringify(result["candidate_id"]));
       localStorage.setItem("token", JSON.stringify(result["token"]));
-    } else if(status == 422){
+      setToken(JSON.stringify(result["token"]));
+      console.log("Login T: "+document.cookie);
+      
+    } else if (status == 422) {
       toast.warn("Email-Password is Required", {
         position: "top-center",
         theme: "light",
         closeOnClick: true,
         pauseOnHover: true,
-      })
+      });
     } else {
       toast.error("Invalid details", {
         position: "top-center",

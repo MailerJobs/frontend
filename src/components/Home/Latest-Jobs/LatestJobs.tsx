@@ -11,7 +11,7 @@ const LatestJobs = () => {
   const [latest_jobs, setLatestJobs] = useState([]);
 
   async function latestJobs() {
-    const URL = "http://127.0.0.1:5000/latest_jobs";
+    const URL = "latest_jobs";
     const {result,status} = await API_GET(URL);
     setLatestJobs(result);
   }

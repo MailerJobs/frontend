@@ -41,7 +41,21 @@ const debounce = (func, delay) => {
   };
 };
 
-const SearchLocation = ({ options, name, selectedOption, setSelected, onchange, id }) => {
+const SearchLocation = ({
+  options = [],
+  name,
+  selectedOption,
+  setSelected,
+  onchange,
+  id,
+}: {
+  options: Option[];
+  name: string;
+  selectedOption: string;
+  setSelected: React.Dispatch<React.SetStateAction<string>>;
+  onchange: Function;
+  id: string;
+}) => {
   const [filteredOptions, setFilteredOptions] = useState(options);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -60,7 +74,7 @@ const SearchLocation = ({ options, name, selectedOption, setSelected, onchange, 
   const handleChange = (selectedOption: SingleValue<Option>) => {
     // console.log("Selected:", selectedOption);
     setSelected(selectedOption);
-    onchange(id,selectedOption?.label);
+    onchange(id, selectedOption?.label);
   };
 
   const handleInputChange = (inputValue: string) => {
@@ -72,13 +86,13 @@ const SearchLocation = ({ options, name, selectedOption, setSelected, onchange, 
     control: (provided: any, state: any) => ({
       ...provided,
       borderRadius: "10px",
-      border: 'none',
+      border: "none",
       borderColor: state.isFocused ? "#ffffff" : "#ffffff",
       boxShadow: state.isFocused ? "#ffffff" : "#ffffff",
       "&:hover": {
         borderColor: "#ffffff",
       },
-      fontSize: "20px"
+      fontSize: "20px",
     }),
     placeholder: (provided: any) => ({
       ...provided,
@@ -91,17 +105,17 @@ const SearchLocation = ({ options, name, selectedOption, setSelected, onchange, 
       ...provided,
       backgroundColor: state.isSelected ? "#90267A" : "#ffffff",
       "&:hover": {
-        backgroundColor: "#d99ecd"
-      }
+        backgroundColor: "#d99ecd",
+      },
     }),
     singleValue: (provided: any) => ({
       ...provided,
       color: "#4b5563",
     }),
     indicatorSeparator: (provided: any) => ({
-        ...provided,
-        display: 'none'
-    })
+      ...provided,
+      display: "none",
+    }),
   };
 
   useEffect(() => {

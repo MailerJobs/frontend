@@ -1,7 +1,7 @@
 // @ts-nocheck
 import * as React from "react";
 import { useContext, useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { JobIndex } from "../context/job_list_context";
 import Login from "../Login-Register/Login";
 import Register from "../Login-Register/Register";
@@ -13,7 +13,8 @@ import { colors } from "@mui/material";
 import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { API_POST_AUTH } from "../../utils/api_structure";
+import { API_POST_AUTH, API_POST } from "../../utils/api_structure";
+import ClientLogin from "../Login-Register/ClientLogin";
 
 const Header = () => {
   const {
@@ -27,9 +28,19 @@ const Header = () => {
     setSearchDatafilters,
     userLogin,
     setUserLogin,
+    profiletype,
+    setProfileType,
+    clientLogin,
+    setClientLogin,
+    clientid,
+    setClientId,
+    candidateid,
+    setCandidateId,
+    clientprofiletype, 
+    setClientProfileType
   } = useContext(JobIndex);
 
-  
+  const history = useNavigate();
 
   const reset = () => {
     setSelectedOptionlocationSearch("");
@@ -48,6 +59,7 @@ const Header = () => {
   const [loginview, setLoginView] = useState("hidden");
   const [registerview, setRegisterView] = useState("hidden");
   const [clientregisterview, setClientRegisterView] = useState("hidden");
+  const [clientloginview, setClientLoginView] = useState("hidden");
   const [profileview, setProfileView] = useState("hidden");
 
   const changeLoginView = () => {
@@ -74,6 +86,14 @@ const Header = () => {
     }
   };
 
+  const changeClientLoginView = () => {
+    if (clientloginview === "hidden") {
+      setClientLoginView("fixed");
+    } else if (clientloginview === "fixed") {
+      setClientLoginView("hidden");
+    }
+  };
+
   const changeProfileView = () => {
     if (profileview === "hidden") {
       setProfileView("fixed");
@@ -82,37 +102,32 @@ const Header = () => {
     }
   };
 
-  // const logout = async () => {
-  //   // e.preventDefaults()
-  //   const res = await fetch("http://127.0.0.1:5000/logout", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       "Authorization": `Bearer ${localStorage.getItem("token")}`,
-  //     },
-  //   });
-    
-  //   // console.log(localStorage.getItem("token"));
-  //   if (res.status == 200) {
-  //     toast.warn("Candidate Logged Out", {
-  //       position: "top-center",
-  //       theme: "light",
-  //       closeOnClick: true,
-  //       pauseOnHover: true,
-  //     });
-  //     localStorage.removeItem("token");
-  //     setUserLogin(false);
-  //   } else {
-  //     toast.error("Invalid details", {
-  //       position: "top-center",
-  //     });
-  //   }
-  // };
+  async function logoutClient() {
+    const URL = "client-logout";
+    const token = localStorage.getItem("client-token");
+    const { result, status } = await API_POST_AUTH(URL, "logout", token);
+
+    if (status == 200) {
+      toast.warn("Client Logged Out", {
+        position: "top-center",
+        theme: "light",
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
+      localStorage.removeItem("client-token");
+      localStorage.removeItem("client-id");
+      setClientLogin(false);
+    } else {
+      toast.error("Invalid details", {
+        position: "top-center",
+      });
+    }
+  }
 
   async function logout() {
-    const URL = "http://127.0.0.1:5000/logout";
+    const URL = "logout";
     const token = localStorage.getItem("token");
-    const { result, status } = await API_POST_AUTH(URL,"logout",token);
+    const { result, status } = await API_POST_AUTH(URL, "logout", token);
 
     if (status == 200) {
       toast.warn("Candidate Logged Out", {
@@ -122,6 +137,7 @@ const Header = () => {
         pauseOnHover: true,
       });
       localStorage.removeItem("token");
+      localStorage.removeItem("can-id");
       setUserLogin(false);
     } else {
       toast.error("Invalid details", {
@@ -140,27 +156,105 @@ const Header = () => {
   const logoutButton = () => {
     setAnchorEl(null);
     logout();
+    history("/home");
+  };
+
+  const logoutButtonClient = () => {
+    setAnchorEl(null);
+    logoutClient();
+    history("/home");
+  };
+
+  const profileButton = () => {
+    history("/candidate");
+    setProfileType("profile");
+  };
+
+  const jobButton = () => {
+    history("/candidate");
+    setProfileType("jobs");
+  };
+
+  const resumeButton = () => {
+    history("/candidate");
+    setProfileType("resume");
+  };
+
+  const cpButtonm = () => {
+    history("/candidate");
+    setProfileType("cp");
+  };
+
+  const clientProfile = () => {
+    history("/client");
+    setClientProfileType("profile")
+  };
+
+  const clientJob = () => {
+    history("/client");
+    setClientProfileType("jobs")
+  };
+
+  const clientPostJob = () => {
+    history("/client");
+    setClientProfileType("post-job")
+  };
+
+  const clientCP = () => {
+    history("/client");
+    setClientProfileType("cp")
+  };
+
+  async function getCandidatesDeatils(candidate_id) {
+    const URL = `candidate/${candidate_id}`;
+    const { result, status } = await API_POST(URL, "delete");
+    setCandidateId(result);
   }
 
-  useEffect(() => {
-    if (localStorage.getItem('token') == undefined) {
-      setUserLogin(false)
-    }
-  })
+  async function getClientsDetails(client_id) {
+    const URL = `client/${client_id}`;
+    const { result, status } = await API_POST(URL, "details");
+    setClientId(result);
+  }
 
+  const getClientDetails = (bool) => {
+    bool
+      ? (setClientLogin(true),
+        getClientsDetails(localStorage.getItem("client-id")))
+      : setClientLogin(false);
+  };
+
+  const getCandidateDetails = (bool) => {
+    bool
+      ? (setUserLogin(true),
+        getCandidatesDeatils(localStorage.getItem("can-id")))
+      : setUserLogin(false);
+  };
+
+  useEffect(() => {
+    localStorage.getItem("token")
+      ? getCandidateDetails(true)
+      : getCandidateDetails(false);
+    // console.log(localStorage.getItem("client-token"));
+    localStorage.getItem("client-token")
+      ? getClientDetails(true)
+      : getClientDetails(false);
+  }, []);
   return (
     <div className="relative">
       <nav className="flex justify-between p-6">
         <div className="flex flex-row">
           <img src="MJ-logo 1.jpg" alt="" className="w-[70px]" />
-          <div className="flex items-center gap-10 ml-8 text-xl">
+          <div className="flex items-center font-medium gap-10 ml-8 text-xl">
             <NavLink to="/home">
               <div onClick={reset}>Home</div>
             </NavLink>
             <NavLink to="/jobs">
               <div onClick={reset}>Jobs</div>
             </NavLink>
-            <div>Blog</div>
+            <NavLink to="/college">
+              <div>Colleges</div>
+            </NavLink>
           </div>
         </div>
         <div className="flex items-center">
@@ -172,14 +266,13 @@ const Header = () => {
                 aria-haspopup="true"
                 aria-expanded={open ? "true" : undefined}
                 onClick={handleClick}
-                sx={
-                  {backgroundColor: 'purple',
-                    color:'white',
-                    borderRadius: "20px",
-                    paddingX: "20px",
-                    fontWeight: "bold"
-                  }
-                }
+                sx={{
+                  backgroundColor: "purple",
+                  color: "white",
+                  borderRadius: "20px",
+                  paddingX: "20px",
+                  fontWeight: "bold",
+                }}
               >
                 Account
               </Button>
@@ -192,7 +285,45 @@ const Header = () => {
                   "aria-labelledby": "basic-button",
                 }}
               >
+                <MenuItem onClick={profileButton}>My Profile</MenuItem>
+                <MenuItem onClick={jobButton}>My Jobs</MenuItem>
+                <MenuItem onClick={resumeButton}>My Resumes</MenuItem>
+                <MenuItem onClick={cpButtonm}>Change Password</MenuItem>
                 <MenuItem onClick={logoutButton}>Logout</MenuItem>
+              </Menu>
+            </div>
+          ) : clientLogin ? (
+            <div>
+              <Button
+                id="account-btn"
+                aria-controls={open ? "account-btn" : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? "true" : undefined}
+                onClick={handleClick}
+                sx={{
+                  backgroundColor: "purple",
+                  color: "white",
+                  borderRadius: "20px",
+                  paddingX: "20px",
+                  fontWeight: "bold",
+                }}
+              >
+                Account
+              </Button>
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                MenuListProps={{
+                  "aria-labelledby": "basic-button",
+                }}
+              >
+                <MenuItem onClick={clientProfile}>Profile</MenuItem>
+                <MenuItem onClick={clientJob}>Jobs</MenuItem>
+                <MenuItem onClick={clientPostJob}>Post Job</MenuItem>
+                <MenuItem onClick={clientCP}>Change Password</MenuItem>
+                <MenuItem onClick={logoutButtonClient}>Logout</MenuItem>
               </Menu>
             </div>
           ) : (
@@ -212,12 +343,34 @@ const Header = () => {
                 </button>
               </div>
               <div className="h-10 w-[1px] bg-slate-400"></div>
-              <div
-                className="text-lg cursor-pointer"
-                onClick={changeClientRegisterView}
+              <Button
+                id="account-btn"
+                aria-controls={open ? "account-btn" : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? "true" : undefined}
+                onClick={handleClick}
+                sx={{
+                  backgroundColor: "purple",
+                  color: "white",
+                  borderRadius: "20px",
+                  paddingX: "20px",
+                  fontWeight: "bold",
+                }}
               >
-                For employers
-              </div>
+                Employers
+              </Button>
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                MenuListProps={{
+                  "aria-labelledby": "basic-button",
+                }}
+              >
+                <MenuItem onClick={changeClientLoginView}>Login</MenuItem>
+                <MenuItem onClick={changeClientRegisterView}>Register</MenuItem>
+              </Menu>
             </div>
           )}
         </div>
@@ -230,6 +383,9 @@ const Header = () => {
       </div>
       <div className={`${clientregisterview} top-[-1px] z-30`}>
         <ClientRegister changeFunc={changeClientRegisterView} />
+      </div>
+      <div className={`${clientloginview} top-[-1px] z-30`}>
+        <ClientLogin changeFunc={changeClientLoginView} />
       </div>
       <ToastContainer />
     </div>

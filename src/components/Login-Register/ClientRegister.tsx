@@ -1,6 +1,13 @@
-import React, { useState } from "react";
+// @ts-nocheck
+import React, { useContext, useState } from "react";
+import { API_POST } from "../../utils/api_structure";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { JobIndex } from "../context/job_list_context";
 
 const ClientRegister = (props) => {
+  const { userLogin, setUserLogin } = useContext(JobIndex);
+
   const [clientregisterdata, setClientRegisterData] = useState({
     first_name: "",
     last_name: "",
@@ -10,10 +17,10 @@ const ClientRegister = (props) => {
     confirm_password: "",
     phone: "",
     pincode: "",
-    org_name: "",
+    company_name: "",
   });
 
-  console.log(clientregisterdata);
+  // console.log(clientregisterdata);
 
   const adddata = (e) => {
     const { name, value } = e.target;
@@ -25,6 +32,35 @@ const ClientRegister = (props) => {
       };
     });
   };
+
+  async function registerclient(e) {
+    e.preventDefault();
+    const URL = "registerclient";
+    const { result, status } = await API_POST(URL, clientregisterdata);
+    console.log("Result = " + JSON.stringify(result));
+    console.log("Satus = " + status);
+    if (status == 200) {
+      toast.success("Client Register Successfullf", {
+        position: "top-center",
+        theme: "light",
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
+      setUserLogin(false);
+      props.changeFunc();
+    } else if (status == 409) {
+      toast.warn("Client Already registered", {
+        position: "top-center",
+        theme: "light",
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
+    } else {
+      toast.error("Invalid details", {
+        position: "top-center",
+      });
+    }
+  }
 
   return (
     <div className="bg-black w-screen h-screen bg-opacity-70 flex items-center justify-center">
@@ -190,7 +226,7 @@ const ClientRegister = (props) => {
           </div>
           <div className="flex flex-col gap-1">
             <label
-              htmlFor="org_name"
+              htmlFor="company_name"
               className="font-roboto font-medium text-base text-login-register-label"
             >
               Organization Name
@@ -199,16 +235,16 @@ const ClientRegister = (props) => {
               type="text"
               placeholder="Enter Organization Name"
               onChange={adddata}
-                value={clientregisterdata.org_name}
-                name="org_name"
-                id="org_name"
+              value={clientregisterdata.company_name}
+              name="company_name"
+              id="company_name"
               className="h-10 border-input-border border-[2px] rounded-md
                 bg-organization-input bg-no-repeat bg-[right_7px_top_7px] bg-[length:23px_25px] p-2"
             />
           </div>
         </div>
         <div className="w-full flex items-center justify-center mt-5">
-          <button className="bg-purple-button text-white font-roboto font-medium text-lg py-1 px-16 rounded-full">
+          <button onClick={registerclient} className="bg-purple-button text-white font-roboto font-medium text-lg py-1 px-16 rounded-full">
             Sign Up
           </button>
         </div>

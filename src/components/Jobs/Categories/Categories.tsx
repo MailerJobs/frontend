@@ -12,15 +12,19 @@ const Categories = () => {
   const fetchSectorJobs = (name) => {
     const sector = convertCat(name);
     console.log(sector);
-
-    // setCatValue(sector);
-    // console.log("e.name = " + name);
     fetchSectorJobsApi(sector);
   };
 
   async function fetchSectorJobsApi(name) {
-    const URL = `http://127.0.0.1:5000/jobsector/${name}`;
-    const {result,status} = await API_GET(URL);
+    const URL = `jobsector/${name}`;
+    const { result, status } = await API_GET(URL);
+    console.log("Status = " + status);
+    console.log("Result = " + result);
+    if (result !== null) {
+      console.log("Result present");
+    } else {
+      console.log("Result Not Present");
+    }
     setJobs(result);
     setJobIndex(result[0]);
   }
@@ -35,7 +39,6 @@ const Categories = () => {
           <div
             key={key}
             onClick={() => {
-              // sendata(e.name);
               fetchSectorJobs(e.name);
             }}
             className="flex gap-2 rounded-xl text-lg 

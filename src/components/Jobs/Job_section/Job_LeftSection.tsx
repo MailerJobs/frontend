@@ -8,7 +8,7 @@ const Job_LeftSection = (props) => {
   const { job_index, setJobIndex, skill, setSkill } = useContext(JobIndex);
 
   async function skillfetch(key) {
-    const URL = `http://127.0.0.1:5000/skill/${key.id}`;
+    const URL = `skill/${key.id}`;
     const { result, status } = await API_POST(URL, "skillfetch");
     setSkill(result);
   }
@@ -44,11 +44,11 @@ const Job_LeftSection = (props) => {
                     alt=""
                     className="w-4 "
                   />
-                  <h1 className="text-gray-500">{e.location}</h1>
+                  <h1 className="text-gray-500">{e.city}</h1>
                 </div>
                 <div className="flex text-sm items-center gap-1 ml-[-2px]">
                   <img src="SVG/Calendar.svg" alt="" className="w-5" />
-                  <h1 className="text-gray-500 ">{e.date_posted}</h1>
+                  <h1 className="text-gray-500 ">{e.Posted_Date}</h1>
                 </div>
                 <div className="flex items-center gap-1 text-sm ml-[-1px]">
                   <img src="SVG/Jobs-Page/Filter.svg" alt="" className="w-5" />

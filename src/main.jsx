@@ -7,9 +7,8 @@ import App from "./App.jsx";
 
 // @ts-ignore
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
+  // <StrictMode>
     <ContextProvider>
       <App />
     </ContextProvider>
-  </StrictMode>
 );

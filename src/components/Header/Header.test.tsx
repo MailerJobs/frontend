@@ -1,134 +1,82 @@
-// import { render, screen, fireEvent, act } from '@testing-library/react';
-// import { MemoryRouter } from 'react-router-dom'; // For simulating routing
-// import Navbar from './Navbar'; // Assuming the component file is named Navbar
-// import { ToastContainer } from 'react-toastify'; // Toast component if used in the component
+import { render, screen, fireEvent } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
+import { JobIndex } from '../context/job_list_context'; // Adjust the path to your context
+import Header from './Header';
+import { describe, test, expect, vi } from 'vitest';
+import React from 'react';
 
-// // Mocking any required functions and components for the test
-// jest.mock('react-toastify', () => ({
-//   ToastContainer: jest.fn().mockReturnValue(null),
-// }));
+// Mocking the JobIndex context
+const mockJobIndex = {
+  selectedOptionlocationSearch: '',
+  setSelectedOptionlocationSearch: vi.fn(),
+  selectedOptionexperienceSearch: '',
+  setSelectedOptionexperienceSearch: vi.fn(),
+  selectedOptionquerySearch: '',
+  setSelectedOptionquerySearch: vi.fn(),
+  searchDataFilters: {},
+  setSearchDatafilters: vi.fn(),
+  userLogin: false,
+  setUserLogin: vi.fn(),
+};
 
-// // Test case 1: Ensure navigation links render correctly when the user is not logged in
-// describe('Navbar component - when user is not logged in', () => {
-//   test('renders navigation links and login/register buttons', () => {
-//     render(
-//       <MemoryRouter>
-//         <Navbar userLogin={false} />
-//       </MemoryRouter>
-//     );
-    
-//     // Check that navigation links are visible
-//     expect(screen.getByText(/Home/i)).toBeInTheDocument();
-//     expect(screen.getByText(/Jobs/i)).toBeInTheDocument();
-//     expect(screen.getByText(/Blog/i)).toBeInTheDocument();
+describe('Header Component', () => {
+  test('renders navigation links and login/register buttons when user is not logged in', () => {
+    render(
+      <JobIndex.Provider value={mockJobIndex}>
+        <MemoryRouter>
+          <Header />
+        </MemoryRouter>
+      </JobIndex.Provider>
+    );
 
-//     // Check login and register buttons are present
-//     expect(screen.getByText(/Login/i)).toBeInTheDocument();
-//     expect(screen.getByText(/Register/i)).toBeInTheDocument();
-    
-//     // Check 'For employers' button is visible
-//     expect(screen.getByText(/For employers/i)).toBeInTheDocument();
-//   });
-// });
+    // Check navigation links
+    expect(screen.getByText(/Home/i)).toBeInTheDocument();
+    expect(screen.getByText(/Jobs/i)).toBeInTheDocument();
+    expect(screen.getByText(/Blog/i)).toBeInTheDocument();
 
-// // Test case 2: Ensure login functionality when buttons are clicked
-// describe('Navbar component - login button functionality', () => {
-//   test('should call changeLoginView when Login button is clicked', () => {
-//     const changeLoginView = jest.fn();
-    
-//     render(
-//       <MemoryRouter>
-//         <Navbar userLogin={false} changeLoginView={changeLoginView} />
-//       </MemoryRouter>
-//     );
-    
-//     const loginButton = screen.getByText(/Login/i);
-//     fireEvent.click(loginButton);
-    
-//     expect(changeLoginView).toHaveBeenCalled();
-//   });
-// });
+    // Check Login and Register buttons
+    expect(screen.getAllByText(/Login/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Register/i).length).toBeGreaterThan(0);
 
-// // Test case 3: Ensure account button renders when user is logged in
-// describe('Navbar component - when user is logged in', () => {
-//   test('renders account button and menu', () => {
-//     const handleClick = jest.fn();
-//     const handleClose = jest.fn();
-//     const logoutButton = jest.fn();
+    // Check 'For employers' button
+    expect(screen.getByText(/For employers/i)).toBeInTheDocument();
+  });
 
-//     render(
-//       <MemoryRouter>
-//         <Navbar
-//           userLogin={true}
-//           handleClick={handleClick}
-//           handleClose={handleClose}
-//           logoutButton={logoutButton}
-//         />
-//       </MemoryRouter>
-//     );
-    
-//     // Check if Account button is visible
-//     const accountButton = screen.getByText(/Account/i);
-//     expect(accountButton).toBeInTheDocument();
-    
-//     // Simulate click on Account button
-//     fireEvent.click(accountButton);
-//     expect(handleClick).toHaveBeenCalled();
-    
-//     // Check if Menu is displayed and Logout option is visible
-//     const logoutMenuItem = screen.getByText(/Logout/i);
-//     expect(logoutMenuItem).toBeInTheDocument();
-    
-//     // Simulate clicking the logout button
-//     fireEvent.click(logoutMenuItem);
-//     expect(logoutButton).toHaveBeenCalled();
-//   });
-// });
+  test('renders account menu when user is logged in', () => {
+    render(
+      <JobIndex.Provider value={{ ...mockJobIndex, userLogin: true }}>
+        <MemoryRouter>
+          <Header />
+        </MemoryRouter>
+      </JobIndex.Provider>
+    );
 
-// // Test case 4: Ensure that modals are displayed when buttons are clicked
-// describe('Navbar component modals', () => {
-//   test('should display the login modal when login button is clicked', () => {
-//     const changeLoginView = jest.fn();
-    
-//     render(
-//       <MemoryRouter>
-//         <Navbar userLogin={false} changeLoginView={changeLoginView} />
-//       </MemoryRouter>
-//     );
-    
-//     fireEvent.click(screen.getByText(/Login/i));
+    // Check that Account button is rendered
+    expect(screen.getByRole('button', { name: /Account/i })).toBeInTheDocument();
+  });
 
-//     // Check if Login modal appears
-//     expect(screen.getByText(/Login/i)).toBeInTheDocument();
-//   });
-  
-//   test('should display the register modal when register button is clicked', () => {
-//     const changeRegisterView = jest.fn();
-    
-//     render(
-//       <MemoryRouter>
-//         <Navbar userLogin={false} changeRegisterView={changeRegisterView} />
-//       </MemoryRouter>
-//     );
-    
-//     fireEvent.click(screen.getByText(/Register/i));
-    
-//     // Check if Register modal appears
-//     expect(screen.getByText(/Register/i)).toBeInTheDocument();
-//   });
-  
-//   test('should display the employer register modal when "For employers" button is clicked', () => {
-//     const changeClientRegisterView = jest.fn();
-    
-//     render(
-//       <MemoryRouter>
-//         <Navbar userLogin={false} changeClientRegisterView={changeClientRegisterView} />
-//       </MemoryRouter>
-//     );
-    
-//     fireEvent.click(screen.getByText(/For employers/i));
-    
-//     // Check if Employer modal appears
-//     expect(screen.getByText(/For employers/i)).toBeInTheDocument();
-//   });
-// });
+  test('logout button works when clicked', () => {
+    const setUserLogin = vi.fn();
+
+    render(
+      <JobIndex.Provider value={{ ...mockJobIndex, userLogin: true, setUserLogin }}>
+        <MemoryRouter>
+          <Header />
+        </MemoryRouter>
+      </JobIndex.Provider>
+    );
+
+    // Open the account menu
+    fireEvent.click(screen.getByRole('button', { name: /Account/i }));
+
+    // Check Logout button
+    const logoutButton = screen.getByText(/Logout/i);
+    expect(logoutButton).toBeInTheDocument();
+
+    // Simulate logout button click
+    fireEvent.click(logoutButton);
+
+    // Ensure setUserLogin is called with false
+    expect(setUserLogin).toHaveBeenCalledWith(false);
+  });
+});

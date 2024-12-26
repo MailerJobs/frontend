@@ -2,6 +2,9 @@
 import React, { useContext, useState, useEffect } from "react";
 import { JobIndex } from "../../context/job_list_context";
 import fetchskills from "../../../utils/fetchskill";
+import { API_POST, API_POST_APPLY } from "../../../utils/api_structure";
+import Apply from "./apply";
+import { toast } from "react-toastify";
 
 interface Job {
   job_id: string;
@@ -17,7 +20,19 @@ interface Job {
 }
 
 const Job_RightSection = (props) => {
-  const { job_index, setJobIndex, skill, setSkill } = useContext(JobIndex);
+  const {
+    job_index,
+    setJobIndex,
+    skill,
+    setSkill,
+    candidateid,
+    setCandidateId,
+    userLogin,
+    setUserLogin,
+  } = useContext(JobIndex);
+  const candidateDetails = candidateid[0] || [];
+
+  const [resumeview, setResumeView] = useState("hidden");
 
   // console.log("JRS JI = "+JSON.stringify(job_index));
 
@@ -34,6 +49,35 @@ const Job_RightSection = (props) => {
   } else {
     // console.log("Text is not defined or is not a string");
   }
+
+  async function likejob(can_id, job_id) {
+    const URL = "job-liked";
+    const { result, status } = await API_POST(URL, {
+      can_id: can_id,
+      job_id: job_id,
+    });
+  }
+
+  async function applyJob() {
+    const URL = "apply-job";
+    const { result } = await API_POST_APPLY(URL, {
+      can_id: candidateDetails.id,
+      job_id: job_index.id,
+    });
+  }
+
+  const applyButton = () => {
+    if (userLogin) {
+      applyJob();
+    } else {
+      toast.warn("User Not Logged IN", {
+        position: "top-center",
+        theme: "light",
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
+    }
+  };
 
   // console.log(JSON.stringify(skill));
 
@@ -60,8 +104,17 @@ const Job_RightSection = (props) => {
               <div>Posted: {job_index.date_posted}</div>
             </div>
           </div>
-          <div className="flex items-center justify-center">
+          <div className="flex items-center gap-3 justify-center">
             <button
+              onClick={() => {
+                likejob(candidateDetails.id, job_index.id);
+              }}
+              className="bg-purple-500 font-bold font-inter text-white py-2 px-7 rounded-full"
+            >
+              Like
+            </button>
+            <button
+              onClick={applyButton}
               className="bg text-white font-inter 
                                font-bold py-2 px-7 rounded-full
                                bg-gradient-to-r from-footer-back to-purple-button"
