@@ -2,6 +2,7 @@
 import React, { useContext, useRef } from "react";
 import { JobIndex } from "../context/job_list_context";
 import { API_POST, API_POST_PIC } from "../../utils/api_structure";
+import { toast } from "react-toastify";
 
 const ClientLeftSection = () => {
   const { clientprofiletype, setClientProfileType, clientid, setClientId } =
@@ -26,6 +27,14 @@ const ClientLeftSection = () => {
     const { result, status } = await API_POST_PIC(URL, formData);
     console.log(JSON.stringify(result));
     getClientsDetails();
+    if (status == 200) {
+      toast.success("Photo Updated Successfully", {
+        position: "top-center",
+        theme: "light",
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
+    }
   }
 
   const handleFileChange = async (
@@ -71,7 +80,9 @@ const ClientLeftSection = () => {
           className="hidden"
           onChange={handleFileChange}
         />
-        <h1 className="font-roboto text-2xl font-semibold">{clientid["company_name"]}</h1>
+        <h1 className="font-roboto text-2xl font-semibold">
+          {clientid["company_name"]}
+        </h1>
       </div>
       <div className="flex flex-col text-gray-900 text-lg">
         <button

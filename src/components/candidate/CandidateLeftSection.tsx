@@ -2,6 +2,7 @@
 import React, { useRef, useContext, useState } from "react";
 import { JobIndex } from "../context/job_list_context";
 import { API_POST, API_POST_PIC } from "../../utils/api_structure";
+import { toast } from "react-toastify";
 
 const CandidateLeftSection = () => {
   const { candidateid, setCandidateId, profiletype, setProfileType } =
@@ -12,7 +13,6 @@ const CandidateLeftSection = () => {
   const candidateDetails = candidateid[0] || [];
 
   console.log(candidateDetails);
-  
 
   const fileInputRef = useRef(null);
 
@@ -35,6 +35,14 @@ const CandidateLeftSection = () => {
     const { result, status } = await API_POST_PIC(URL, formData);
     console.log(JSON.stringify(result));
     getCandidateDeatils();
+    if (status == 200) {
+      toast.success("Photo Updated Successfully", {
+        position: "top-center",
+        theme: "light",
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
+    }
   }
 
   const handleFileChange = async (

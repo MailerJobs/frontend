@@ -35,7 +35,8 @@ const Login = (props) => {
   }
 
   async function senddata() {
-    const URL = "login";
+    try {
+      const URL = "login";
     const { result, status } = await API_POST_LOGIN(URL, logdata);
     if (status == 200) {
       toast.success("Candidate Logged In", {
@@ -65,6 +66,10 @@ const Login = (props) => {
       toast.error("Invalid details", {
         position: "top-center",
       });
+    }
+    } catch (error) {
+     console.error("Error: "+error.message);
+      
     }
   }
 

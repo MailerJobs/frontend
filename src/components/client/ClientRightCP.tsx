@@ -23,7 +23,7 @@ const ClientRightCP = () => {
       token
     );
     if (status == 200) {
-      toast.success("PWD C", {
+      toast.success("Password Changed", {
         position: "top-center",
         theme: "light",
         closeOnClick: true,

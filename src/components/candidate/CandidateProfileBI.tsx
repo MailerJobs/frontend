@@ -92,8 +92,8 @@ const CandidateProfileBI = () => {
           <input
             type="date"
             onChange={adddata}
-            placeholder={candidateDetails.DOB || "Enter Date of Birth"}
-            value={profileBI.DOB}
+            placeholder={"Enter Date of Birth"}
+            value={candidateDetails.DOB || profileBI.DOB}
             name="DOB"
             id="DOB"
             className="h-10 p-3 focus:outline-none border-[1px] border-gray-300 rounded-[4px] w-[300px]"
