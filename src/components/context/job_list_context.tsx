@@ -65,6 +65,7 @@ const ContextProvider = ({ children }) => {
     const [clientviewjobid,setClientViewJobId] = useState();
     const [collegeDetails, setCollegeDetails] = useState([]);
     const [singlecollege, setSingleCollege] = useState([]);
+    const [jobNav,setJobNav] = useState(false);
 
   return (
     <>
@@ -123,7 +124,9 @@ const ContextProvider = ({ children }) => {
           collegeDetails, 
           setCollegeDetails,
           singlecollege, 
-          setSingleCollege
+          setSingleCollege,
+          jobNav,
+          setJobNav
         }}
       >
         {children}

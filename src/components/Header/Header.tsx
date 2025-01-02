@@ -36,8 +36,8 @@ const Header = () => {
     setClientId,
     candidateid,
     setCandidateId,
-    clientprofiletype, 
-    setClientProfileType
+    clientprofiletype,
+    setClientProfileType,
   } = useContext(JobIndex);
 
   const history = useNavigate();
@@ -187,22 +187,22 @@ const Header = () => {
 
   const clientProfile = () => {
     history("/client");
-    setClientProfileType("profile")
+    setClientProfileType("profile");
   };
 
   const clientJob = () => {
     history("/client");
-    setClientProfileType("jobs")
+    setClientProfileType("jobs");
   };
 
   const clientPostJob = () => {
     history("/client");
-    setClientProfileType("post-job")
+    setClientProfileType("post-job");
   };
 
   const clientCP = () => {
     history("/client");
-    setClientProfileType("cp")
+    setClientProfileType("cp");
   };
 
   async function getCandidatesDeatils(candidate_id) {
@@ -267,11 +267,14 @@ const Header = () => {
                 aria-expanded={open ? "true" : undefined}
                 onClick={handleClick}
                 sx={{
-                  backgroundColor: "purple",
+                  backgroundColor: "#b52f99",
                   color: "white",
                   borderRadius: "20px",
                   paddingX: "20px",
                   fontWeight: "bold",
+                  '&:hover': {
+                    backgroundColor: '#90267A'
+                  }
                 }}
               >
                 Account
@@ -301,11 +304,14 @@ const Header = () => {
                 aria-expanded={open ? "true" : undefined}
                 onClick={handleClick}
                 sx={{
-                  backgroundColor: "purple",
+                  backgroundColor: "#b52f99",
                   color: "white",
                   borderRadius: "20px",
                   paddingX: "20px",
                   fontWeight: "bold",
+                  '&:hover': {
+                    backgroundColor: '#90267A'
+                  }
                 }}
               >
                 Account
@@ -331,13 +337,13 @@ const Header = () => {
               <div className="flex gap-3">
                 <button
                   onClick={changeLoginView}
-                  className="hover:shadow-purple-buttons rounded-full text-lg pb-[6px] pt-1 px-6 border-purple-button border-solid border-[1px]"
+                  className="ease-in-out duration-500 hover:shadow-purple-buttons rounded-full text-lg pb-[6px] pt-1 px-6 border-purple-button border-solid border-[1px]"
                 >
                   Login
                 </button>
                 <button
                   onClick={changeRegisterView}
-                  className="rounded-full text-lg pb-[6px] pt-1 px-6 bg-purple-button text-white"
+                  className="ease-in-out duration-500 rounded-full text-lg pb-[6px] pt-1 px-6 bg-purple-button-before hover:bg-purple-button text-white"
                 >
                   Register
                 </button>
@@ -350,11 +356,15 @@ const Header = () => {
                 aria-expanded={open ? "true" : undefined}
                 onClick={handleClick}
                 sx={{
-                  backgroundColor: "purple",
+                  backgroundColor: "#b52f99",
                   color: "white",
                   borderRadius: "20px",
                   paddingX: "20px",
+                  paddingY: "7px",
                   fontWeight: "bold",
+                  '&:hover': {
+                    backgroundColor: '#90267A'
+                  }
                 }}
               >
                 Employers

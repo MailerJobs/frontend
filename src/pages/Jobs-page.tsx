@@ -10,9 +10,6 @@ const JobsPage = () => {
   
   return (
     <div>
-      {/* <div className="fixed top-[-1px] z-30">
-        <Apply />
-      </div> */}
       <Categories />
       <div className="w-full bg  h-[250px] flex justify-center items-center">
         <div className="drop-shadow-job_search z-20">

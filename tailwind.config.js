@@ -6,6 +6,7 @@ export default {
     extend: {
       colors: {
         'purple-button': '#90267A',
+        'purple-button-before': '#b52f99',
         'test-back': '#9747FF',
         'footer-back': '#CA3BAC',
         'line': '#E645C4',
@@ -13,13 +14,13 @@ export default {
         'input-border': '#BBBBBB'
       },
       backgroundImage: {
-        'home-page': "url('Background1.jpg')",
-        'username-input': "url('SVG/User-Logo.svg')",
-        'password-input': "url('SVG/Lock.svg')",
-        'email-input': "url('SVG/Email.svg')",
-        'phone-input': "url('SVG/Phone.svg')",
-        'pincode-input': "url('Pin.png')",
-        'organization-input': "url('SVG/Org_icon.svg')",
+        'home-page': "url('/Background1.jpg')",
+        'username-input': "url('/SVG/User-Logo.svg')",
+        'password-input': "url('/SVG/Lock.svg')",
+        'email-input': "url('/SVG/Email.svg')",
+        'phone-input': "url('/SVG/Phone.svg')",
+        'pincode-input': "url('/Pin.png')",
+        'organization-input': "url('/SVG/Org_icon.svg')",
         'college-ski' : "url(college/background/ski.jpg)"
       },
       fontFamily: {

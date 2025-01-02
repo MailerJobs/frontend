@@ -121,7 +121,7 @@ export const API_PATCH_AUTH = async (url_post, body, token) => {
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(body),
-    credentials: 'include'
+    credentials: "include",
   });
   if (!res.ok) {
     throw new Error("Network Responce was not ok");
@@ -166,25 +166,45 @@ export const API_POST_APPLY = async (url_post, body) => {
 };
 
 export const API_POST_LOGIN = async (url_post, body) => {
-  const URL = BASE_URL + url_post;
+  try {
+    const URL = BASE_URL + url_post;
 
-  const res = await fetch(URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(body),
-    credentials: 'include'
-  });
-  if (!res.ok) {
-    throw new Error("Network Responce was not ok");
+    const res = await fetch(URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+      credentials: "include",
+    });
+    const result = await res.json();
+    const status = res.status;
+    if (res.status == 400) {
+      toast.warn("No User Found", {
+        position: "top-center",
+        theme: "light",
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
+    } else if (res.status == 422) {
+      toast.warn("Email and Password Required", {
+        position: "top-center",
+        theme: "light",
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
+    } else if (res.status == 401) {
+      toast.warn("Invalid Credentials!", {
+        position: "top-center",
+        theme: "light",
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
+    }
+    return { result, status };
+  } catch (error) {
+    console.error("Error: " + error.message);
   }
-  const result = await res.json();
-  const status = res.status;
-  // console.log(JSON.stringify(result));
-
-  return { result, status };
-  // return result
 };
 
 export const API_POST_STUDENT = async (url_post, body) => {

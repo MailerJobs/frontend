@@ -48,7 +48,7 @@ export const hiring = [
     img: "home/Hiring-Companies/kauvery.png",
   },
   {
-    img: "home/Hiring-Companies/L&t.png",
+    img: "home/Hiring-Companies/l&t.png",
   },
   {
     img: "home/Hiring-Companies/mehta's.png",

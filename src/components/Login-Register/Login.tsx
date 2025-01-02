@@ -4,11 +4,18 @@ import { JobIndex } from "../context/job_list_context";
 import { Email } from "@mui/icons-material";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { API_POST,API_POST_LOGIN } from "../../utils/api_structure";
+import { ToastContainer } from "react-toastify";
+import { API_POST, API_POST_LOGIN } from "../../utils/api_structure";
 
 const Login = (props) => {
-  const { userLogin, setUserLogin, candidateid, setCandidateId,token,setToken } =
-    useContext(JobIndex);
+  const {
+    userLogin,
+    setUserLogin,
+    candidateid,
+    setCandidateId,
+    token,
+    setToken,
+  } = useContext(JobIndex);
 
   const [logdata, setLogData] = useState({
     email: "",
@@ -35,8 +42,7 @@ const Login = (props) => {
   }
 
   async function senddata() {
-    try {
-      const URL = "login";
+    const URL = "login";
     const { result, status } = await API_POST_LOGIN(URL, logdata);
     if (status == 200) {
       toast.success("Candidate Logged In", {
@@ -53,23 +59,7 @@ const Login = (props) => {
       localStorage.setItem("can-id", JSON.stringify(result["candidate_id"]));
       localStorage.setItem("token", JSON.stringify(result["token"]));
       setToken(JSON.stringify(result["token"]));
-      console.log("Login T: "+document.cookie);
-      
-    } else if (status == 422) {
-      toast.warn("Email-Password is Required", {
-        position: "top-center",
-        theme: "light",
-        closeOnClick: true,
-        pauseOnHover: true,
-      });
-    } else {
-      toast.error("Invalid details", {
-        position: "top-center",
-      });
-    }
-    } catch (error) {
-     console.error("Error: "+error.message);
-      
+      console.log("Login T: " + document.cookie);
     }
   }
 

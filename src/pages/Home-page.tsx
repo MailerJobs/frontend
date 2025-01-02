@@ -11,9 +11,14 @@ import Footer from "../components/Footer/Footer";
 const HomePage = () => {
   return (
     <>
-      <div className="bg-home-page w-full h-[500px] bg-cover bg-center flex flex-col gap-5 items-center justify-center">
-        <h1 className="text-4xl font-bold font-roboto">Find Your Dream Job</h1>
-        <Search />
+      <div className="relative bg-home-page w-full h-[500px] bg-cover bg-center flex flex-col gap-5 items-center justify-center">
+        <div className="absolute w-full bg-black bg-opacity-0 z-[1] h-[499px]" />
+        <h1 className="text-4xl font-bold font-roboto z-10 text-black">
+          Find Your Dream Job
+        </h1>
+        <div className="z-10">
+          <Search />
+        </div>
       </div>
       <div className="flex flex-col items-center my-16">
         <h1 className="text-5xl font-roboto font-medium">Latest Jobs</h1>
@@ -33,12 +38,12 @@ const HomePage = () => {
         </h1>
         <HiringSection />
       </div>
-      <div>
+      {/* <div>
         <h1 className="text-4xl font-bold text-purple-button ml-28 mt-9">
           BLOG POST
         </h1>
         <BlogPost />
-      </div>
+      </div> */}
       <Footer />
     </>
   );

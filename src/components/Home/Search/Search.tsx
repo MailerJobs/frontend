@@ -37,6 +37,7 @@ const Search = () => {
     setJobs,
     job_index,
     setJobIndex,
+    setJobNav,
     searchDataFilters,
     setSearchDatafilters,
   } = useContext(JobIndex);
@@ -58,6 +59,7 @@ const Search = () => {
     setJobs(result);
     setJobIndex(result[0]);
     history("/jobs");
+    setJobNav(true);
   }
 
   async function search() {
@@ -72,21 +74,11 @@ const Search = () => {
     { value: index * 2 + 2, label: item.job_org }, // Add job_org with even ID
   ]);
 
-
-
-
-  // delete city["error"];
-  // delete city["msg"];
-
   let newarr = [];
   // console.log(Array.isArray(newarr));
   
 
   newarr = cities[0]["cities"];
-  
-  // console.log(Array.isArray(newarr));
-  
-  // console.log(newarr);
 
   var result;
 
@@ -99,11 +91,6 @@ const Search = () => {
     // console.error("newarr is not an array or is undefined.");
     result = [];
   }
-
-  // result = newarr.map((item, index) => ({
-  //   value: index + 1,
-  //   label: item,
-  // }));
 
   useEffect(() => {
     search();
@@ -149,7 +136,7 @@ const Search = () => {
       <div>
         <button
           onClick={sendata}
-          className="bg-purple-button text-white px-10 pt-1 pb-2 rounded-full text-2xl"
+          className="ease-in-out duration-500 bg-purple-button-before hover:bg-purple-button  text-white px-10 pt-1 pb-2 rounded-full text-2xl"
         >
           Search
         </button>

@@ -60,17 +60,6 @@ const ClientLogin = (props) => {
       localStorage.setItem("client-token", JSON.stringify(result["token"]));
       setToken(JSON.stringify(result["token"]));
       // console.log("Login C T: " + JSON.stringify(result["token"]));
-    } else if (status == 422) {
-      toast.warn("Email-Password is Required", {
-        position: "top-center",
-        theme: "light",
-        closeOnClick: true,
-        pauseOnHover: true,
-      });
-    } else {
-      toast.error("Invalid details", {
-        position: "top-center",
-      });
     }
   }
   // console.log(userLogin);

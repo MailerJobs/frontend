@@ -31,6 +31,8 @@ const JobSection = () => {
     setData,
     jobdata,
     setJobs,
+    jobNav,
+    setJobNav,
   } = useContext(JobIndex);
 
   async function skillfetch(key) {
@@ -48,7 +50,9 @@ const JobSection = () => {
   }
 
   useEffect(() => {
-    jobs();
+    if (!jobNav) {
+      jobs();
+    }
   }, []);
 
   return (

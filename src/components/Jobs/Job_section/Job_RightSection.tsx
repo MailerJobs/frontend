@@ -99,9 +99,9 @@ const Job_RightSection = (props) => {
               <h1 className="text-2xl font-medium">{job_index.job_title}</h1>
             </div>
             <div className="flex items-center gap-2 text-gray-400">
-              <div>{job_index.location}</div>
+              <div>{job_index.city}</div>
               <div className="w-[1px] h-5 bg-gray-300 mt-[2px]" />
-              <div>Posted: {job_index.date_posted}</div>
+              <div>Posted: {job_index.Posted_Date}</div>
             </div>
           </div>
           <div className="flex items-center gap-3 justify-center">
@@ -109,15 +109,17 @@ const Job_RightSection = (props) => {
               onClick={() => {
                 likejob(candidateDetails.id, job_index.id);
               }}
-              className="bg-purple-500 font-bold font-inter text-white py-2 px-7 rounded-full"
+              className="ease-in-out duration-300 bg-purple-500 hover:bg-purple-700 font-bold font-inter text-white py-2 px-7 rounded-full"
             >
               Like
             </button>
             <button
               onClick={applyButton}
-              className="bg text-white font-inter 
+              className="bg text-white font-inter
+                               ease-in-out duration-500
                                font-bold py-2 px-7 rounded-full
-                               bg-gradient-to-r from-footer-back to-purple-button"
+                               bg-gradient-to-r from-footer-back to-purple-button
+                               hover:bg-gradient-to-r hover:from-purple-button hover:to-footer-back"
             >
               Apply
             </button>
